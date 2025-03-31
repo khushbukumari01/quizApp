@@ -21,8 +21,8 @@ export default function Home() {
       });
       const data = await res.json();
       console.log(data)
-      console.log(data.status);
-      if(data.status===200)
+      console.log(data.code);
+      if(data.code===200)
       {
         alert("Logged In")
       }

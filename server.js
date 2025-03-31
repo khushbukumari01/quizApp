@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+        return res.status(400).json({ message: "Username and password are required",code:400 });
     }
     try {
         const user = await db.get(
@@ -43,10 +43,10 @@ app.post("/login", async (req, res) => {
         );
 
         if (!user) {
-            return res.status(401).json({ message: "Invalid username or password" });
+            return res.status(401).json({ message: "Invalid username or password",code:401 });
         }
         if (password !== user.password) {
-            return res.status(401).json({ message: "Invalid username or password" });
+            return res.status(401).json({ message: "Invalid username or password",code:401 });
         }
         const userr= {
             id: user.id,
@@ -57,17 +57,22 @@ app.post("/login", async (req, res) => {
         const token=jwt.sign({userr},"123456789",{
             expiresIn:"15d"
         })
+
         console.log(token)
         res.cookie("jwt",token,{
             httpOnly:true,
             secure:true,
+            maxAge:5*24*60*60*1000,
+            path:"/",
+            sameSite:"none"
         }).status(200).json({
             message: "Login successful",
+            code:200 ,
             userr
         });
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error",code:500 });
     }
 });
 app.post("/register",async (req,res)=>{
