@@ -1,0 +1,9 @@
+npm init
+npm install express
+before: node filename.js
+hot reload server : nodemon 
+after nodemon server.js
+console.log(2===2) true;
+console.log(2==="2") false
+console.log(2=="2") true
+=== comparison of datatype and value but== only comapare value
